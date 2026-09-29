@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elektromanyetik Spektrum Keşif & Tahmin Laboratuvarı</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-device="desktop" data-mobile-subview="guess">
+    <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
+    <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+
+    <header class="app-header">
+        <div class="container header-inner">
+            <!-- Üst Satır Sol: Marka & Başlık -->
+            <div class="brand">
+                <div class="brand-icon" aria-hidden="true">
+                    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 18C5.5 8 9 28 12.5 18C16 8 19.5 28 23 18C26.5 8 30 28 34 18" stroke="url(#waveGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="waveGrad" x1="2" y1="18" x2="34" y2="18" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#06b6d4"/>
+                                <stop offset="35%" stop-color="#ef4444"/>
+                                <stop offset="60%" stop-color="#22c55e"/>
+                                <stop offset="80%" stop-color="#8b5cf6"/>
+                                <stop offset="100%" stop-color="#facc15"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-badge" id="uiBrandBadge">FİZİK &amp; OPTİK SİMÜLASYONU</span>
+                    <h1 id="uiAppTitle">Elektromanyetik Spektrum Laboratuvarı</h1>
+                </div>
+            </div>
+
+            <!-- Merkez / Mobil Alt Satır: Ana Mod Sekmeleri (Tahmin Oyunu & Spektrum Ansiklopedisi) -->
+            <nav class="mode-tabs" role="tablist" aria-label="Uygulama Modları">
+                <button class="mode-tab active" data-mode="game" role="tab" aria-selected="true" id="tab-game">
+                    <span class="tab-icon">🎯</span>
+                    <span id="uiTabGame">Tahmin Oyunu</span>
+                </button>
+                <button class="mode-tab" data-mode="encyclopedia" role="tab" aria-selected="false" id="tab-encyclopedia">
+                    <span class="tab-icon">📚</span>
+                    <span id="uiTabEncyclopedia">Spektrum Ansiklopedisi</span>
+                    <span class="collection-counter" id="navCollectionCounter">0/12</span>
+                </button>
+            </nav>
+
+            <!-- Sağ: İstatistikler + Dil (TR/EN) + Cihaz Ortamı (Masaüstü/Mobil) -->
+            <div class="header-controls-right">
+                <div class="stats-bar" aria-label="Oyun İstatistikleri">
+                    <div class="stat-pill">
+                        <span class="stat-label" id="uiStatScoreLabel">PUAN</span>
+                        <span class="stat-value" id="scoreValue">0</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-label" id="uiStatStreakLabel">SERİ</span>
+                        <span class="stat-value" id="streakValue">0🔥</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-label" id="uiStatDiscoveredLabel">KEŞFEDİLEN</span>
+                        <span class="stat-value" id="discoveredValue">0/12</span>
+                    </div>
+                </div>
+
+                <div class="utility-buttons">
+                    <div class="lang-switch" role="group" aria-label="Dil Seçimi / Language">
+                        <button type="button" class="lang-btn active" data-lang="tr" id="langBtnTr">TR</button>
+                        <button type="button" class="lang-btn" data-lang="en" id="langBtnEn">EN</button>
+                    </div>
+
+                    <button id="deviceToggleBtn" class="device-env-btn" type="button" title="Arayüz Ortamını Değiştir / Switch UI Mode">
+                        <span id="deviceEnvIcon">🖥️</span>
+                        <span id="deviceEnvLabel">Masaüstü</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <!-- EN ÜST GÖREV & OYUN AMACI BİLGİLENDİRME BANNERI -->
+        <section class="mission-hero-banner" id="missionHeroBanner" aria-label="Oyun Amacı ve Görev Bilgisi">
+            <div class="mission-hero-left">
+                <div class="mission-status-row">
+                    <span class="mission-pulse-dot" id="missionPulseDot" aria-hidden="true"></span>
+                    <span class="mission-kicker" id="uiMissionKicker">AKTİF GÖREV • GİZLİ DALGA BOYU TUTULDU</span>
+                </div>
+                <h2 class="mission-title" id="uiMissionTitle">
+                    Uygulama elektromanyetik spektrumdan gizli bir dalga boyu tuttu! Bunu bulmaya çalışın.
+                </h2>
+                <p class="mission-desc" id="uiMissionDesc">
+                    Spektrumdaki <strong>12 dalga boyundan</strong> hangisinin tutulduğunu tahmin edin. Her yanlış tahminde sistem size hedefin <em>daha kısa dalga boyunda (yüksek enerji)</em> mı yoksa <em>daha uzun dalga boyunda (düşük enerji)</em> mı olduğunu söyler; doğru ışını bulduğunuzda detaylı bilimsel bilgileri ve kullanım alanları açılır!
+                </p>
+            </div>
+            <div class="mission-hero-right">
+                <div class="mission-target-box" id="missionTargetBox">
+                    <span class="mission-target-label" id="uiMissionTargetLabel">TUTULAN HEDEF DALGA</span>
+                    <strong class="mission-target-value" id="uiMissionTargetValue">🔒 Gizli Işın (? / 12 Olasılık)</strong>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm mission-new-btn" id="missionNewWaveBtn">
+                    🔄 Yeni Dalga Tut
+                </button>
+            </div>
+        </section>
+
+        <!-- CANLI DALGA SİMÜLATÖRÜ VE SPEKTRUM CETVELİ -->
+        <section class="spectrum-visualizer-card" aria-label="Elektromanyetik Spektrum Cetveli">
+            <div class="visualizer-header">
+                <div>
+                    <h2 class="section-title" id="uiVisualizerTitle">Görsel Elektromanyetik Spektrum Cetveli</h2>
+                    <p class="section-subtitle" id="visualizerStatusText">
+                        Uzun dalga boyundan (düşük enerji) kısa dalga boyuna (yüksek enerji) doğru sıralanmış spektrum haritası.
+                    </p>
+                </div>
+                <div class="wave-live-metrics" id="waveLiveMetrics">
+                    <span class="metric-chip" id="liveWaveName">Hedef: Gizli Dalga (?)</span>
+                    <span class="metric-chip mono" id="liveWaveLambda">λ: ?</span>
+                    <span class="metric-chip mono" id="liveWaveFreq">f: ?</span>
+                </div>
+            </div>
+
+            <div class="canvas-wrapper">
+                <canvas id="waveCanvas" width="1100" height="100" aria-label="Canlı elektromanyetik dalga animasyonu"></canvas>
+                <div class="canvas-axis-labels">
+                    <span id="uiAxisLeft">← Uzun Dalga Boyu (λ ↑) • Düşük Frekans &amp; Enerji (E ↓)</span>
+                    <span id="uiAxisRight">Kısa Dalga Boyu (λ ↓) • Yüksek Frekans &amp; Enerji (E ↑) →</span>
+                </div>
+            </div>
+
+            <!-- 12 Bölmeli Spektrum Cetveli -->
+            <div class="spectrum-ruler" id="spectrumRuler" role="list" aria-label="Spektrum Bölgeleri">
+                <!-- JS tarafından doldurulur -->
+            </div>
+        </section>
+
+        <!-- MOD 1: TAHMİN OYUNU EKRANI -->
+        <section id="gameView" class="view-section active" aria-labelledby="tab-game">
+            <!-- Mobil Görünüm İçin Oyun İçi Alt Sekme Seçici (Tahmin Paneli vs Bilimsel Rapor) -->
+            <div class="mobile-game-subtabs" id="mobileGameSubtabs">
+                <button type="button" class="mobile-subtab-btn active" data-subview="guess" id="mobSubtabGuess">
+                    <span>🎯</span>
+                    <span id="uiMobSubGuess">Tahmin Alanı</span>
+                </button>
+                <button type="button" class="mobile-subtab-btn" data-subview="report" id="mobSubtabReport">
+                    <span>🔬</span>
+                    <span id="uiMobSubReport">Bilimsel Dosya</span>
+                    <span class="mobile-subtab-badge hidden" id="mobileReportBadge">✓</span>
+                </button>
+            </div>
+
+            <div class="game-grid">
+                <!-- SOL SÜTUN: TAHMİN KONTROLLERİ & AÇILIR-KAPANIR İPUÇLARI -->
+                <div class="game-left-col">
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <div>
+                                <span class="step-tag" id="uiStepTag1">ADIM 1 • HEDEFİ BUL</span>
+                                <h3 id="uiGuessHeading">Hangi Dalga Boyunu Tuttum?</h3>
+                            </div>
+                            <div class="game-controls-top">
+                                <button id="toggleSortBtn" class="btn btn-ghost btn-sm" type="button">
+                                    🔀 Karışık Sıra
+                                </button>
+                                <button id="newGameBtn" class="btn btn-secondary btn-sm" type="button">
+                                    🔄 Yeni Dalga Tut
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Yönlendirici Geri Bildirim Kutusu -->
+                        <div id="directionFeedbackBox" class="direction-feedback neutral" role="status" aria-live="polite">
+                            <div class="feedback-icon" id="feedbackIcon">🛰️</div>
+                            <div class="feedback-body">
+                                <div class="feedback-title" id="feedbackTitle">Spektrum Taraması Başladı!</div>
+                                <div class="feedback-desc" id="feedbackDesc"></div>
+                            </div>
+                            <div class="attempt-badge">
+                                <span id="uiAttemptLabel">Deneme</span>
+                                <strong id="attemptCount">0</strong>
+                            </div>
+                        </div>
+
+                        <!-- Seçenek Butonları (12 Işın) -->
+                        <div class="choices-grid" id="choicesGrid" role="group" aria-label="Spektrum Seçenekleri">
+                            <!-- JS tarafından oluşturulur -->
+                        </div>
+                    </div>
+
+                    <!-- AÇILIR-KAPANIR (COLLAPSIBLE) İPUCU KARTLARI -->
+                    <div class="panel-card progressive-clues-card">
+                        <div class="panel-header">
+                            <div>
+                                <span class="step-tag" id="uiCluesTag">YARDIMCI İPUÇLARI</span>
+                                <h3 id="uiCluesHeading">İpucu Başlıkları</h3>
+                            </div>
+                            <span class="badge-subtle" id="uiCluesBadge">Tıklayarak Aç / Kapat</span>
+                        </div>
+                        <p class="panel-helper-text" id="uiCluesHelper">
+                            Hedef ışını bulmak için aşağıdaki ipucu başlıklarından istediğinizi tıklayarak açıp kapatabilirsiniz:
+                        </p>
+                        <div class="clue-stages-list" id="clueStagesList">
+                            <!-- JS tarafından collapsible (<details>) ipucu kartları oluşturulur -->
+                        </div>
+                    </div>
+
+                    <!-- Tahmin Geçmişi -->
+                    <div class="panel-card history-card">
+                        <div class="panel-header">
+                            <h3 id="uiHistoryHeading">Tahmin Geçmişi &amp; Yön Analizi</h3>
+                            <span class="badge-subtle" id="remainingCountBadge">12 Olasılık Kaldı</span>
+                        </div>
+                        <div id="guessHistoryList" class="guess-history-list"></div>
+                    </div>
+                </div>
+
+                <!-- SAĞ SÜTUN: AÇILIR-KAPANIR (COLLAPSIBLE) BİLİMSEL KEŞİF RAPORU -->
+                <div class="game-right-col">
+                    <div class="panel-card discovery-panel" id="discoveryPanel">
+                        <!-- Henüz bulunmadığında gösterilen kilitli durum -->
+                        <div id="discoveryLockedState" class="discovery-locked">
+                            <div class="locked-visual">
+                                <div class="pulse-ring"></div>
+                                <span class="locked-icon">🔬</span>
+                            </div>
+                            <h3 id="uiLockedTitle">Bilimsel Bilgi ve Kullanım Alanları</h3>
+                            <p id="uiLockedDesc">
+                                Doğru dalga boyunu bulduğunuzda bu panelde ilgili spektrum bölgesinin
+                                <strong>açılır-kapanır (collapsible) bilimsel bilgi kartları</strong> aktifleşecektir.
+                            </p>
+                            <div class="locked-stages-preview">
+                                <div class="preview-stage-item">
+                                    <span class="preview-num" id="uiPrevBadge1">📐 Fiziksel</span>
+                                    <span id="uiPrevText1">Dalga Boyu, Frekans, Enerji &amp; Boyut Ölçeği</span>
+                                </div>
+                                <div class="preview-stage-item">
+                                    <span class="preview-num" id="uiPrevBadge2">🌌 Bilimsel</span>
+                                    <span id="uiPrevText2">Oluşum Mekanizması &amp; Doğadaki Kaynakları</span>
+                                </div>
+                                <div class="preview-stage-item">
+                                    <span class="preview-num" id="uiPrevBadge3">🛠️ Kullanım</span>
+                                    <span id="uiPrevText3">Teknolojik ve Günlük Kullanım Alanları</span>
+                                </div>
+                                <div class="preview-stage-item">
+                                    <span class="preview-num" id="uiPrevBadge4">🛡️ Etkiler</span>
+                                    <span id="uiPrevText4">Faydaları, Riskleri &amp; İlginç Bilgiler</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bulunduğunda açılan collapsible bilgi alanı -->
+                        <div id="discoveryUnlockedState" class="discovery-unlocked hidden">
+                            <!-- JS tarafından doldurulur -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MOD 2: SPEKTRUM ANSİKLOPEDİSİ & KARŞILAŞTIRMA EKRANI -->
+        <section id="encyclopediaView" class="view-section" aria-labelledby="tab-encyclopedia">
+            <div class="encyclopedia-toolbar panel-card">
+                <div class="toolbar-left">
+                    <h2 id="uiEncTitle">Spektrum Bilgi Bankası &amp; Kullanım Alanları Rehberi</h2>
+                    <p id="uiEncSubtitle">Tüm elektromanyetik dalga boylarını seçip açılır-kapanır bilgi başlıklarıyla detaylıca inceleyin.</p>
+                </div>
+                <div class="toolbar-actions">
+                    <div class="filter-group" role="group" aria-label="Spektrum Filtresi">
+                        <button class="filter-btn active" data-filter="all" id="uiFilterAll" type="button">Tümü (12)</button>
+                        <button class="filter-btn" data-filter="low" id="uiFilterLow" type="button">Uzun Dalga (Radyo - IR)</button>
+                        <button class="filter-btn" data-filter="visible" id="uiFilterVisible" type="button">Görünür Işık (6 Renk)</button>
+                        <button class="filter-btn" data-filter="high" id="uiFilterHigh" type="button">Yüksek Enerji (UV - Gama)</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="encyclopedia-layout">
+                <!-- Sol (Mobilde Üst Yatay Şerit): 12 Işın Listesi -->
+                <div class="encyclopedia-sidebar" id="encyclopediaList" role="listbox" aria-label="Işın Türleri Listesi">
+                    <!-- JS tarafından oluşturulur -->
+                </div>
+
+                <!-- Sağ: Seçili Işının Açılır-Kapanır Detay Görünümü -->
+                <div class="encyclopedia-detail panel-card" id="encyclopediaDetail">
+                    <!-- JS tarafından doldurulur -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <div class="container footer-inner">
+            <span id="uiFooterText">Elektromanyetik Spektrum Tahmini &amp; Bilimsel Keşif Uygulaması</span>
+            <span class="mono">c = λ · f = 299.792.458 m/s</span>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
